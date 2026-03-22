@@ -1,10 +1,13 @@
 //register user controller function
 //register user controller function
 import type { Request, Response } from "express";
+import { eq } from "drizzle-orm";
 import { db } from "../db.ts";
 import { usersTable } from "../schema.ts";
+
+
 export const registerUserController = async (req: Request, res: Response) => {
-    // res.send("Hello, from register user controller!");
+  // res.send("Hello, from register user controller!");
   try {
     const { name, secName, age, email } = req.body;
 
@@ -12,8 +15,8 @@ export const registerUserController = async (req: Request, res: Response) => {
     const existingUser = await db
       .select()
       .from(usersTable)
-      .where(usersTable.email.equals(email))
-      .first();
+      .where(eq(usersTable.email, email))
+      .limit(1);
     if (existingUser) {
       return res.status(400).json({ message: "User already exists" });
     }
@@ -30,4 +33,3 @@ export const registerUserController = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
-
