@@ -5,6 +5,7 @@ import { eq } from "drizzle-orm";
 import { db } from "../db.ts";
 import { usersTable } from "../schema.ts";
 import bcrypt from "bcryptjs";
+import { generateToken } from "../utils/generateJWT.ts";
 
 export const register = async (req: Request, res: Response) => {
   try {
@@ -31,16 +32,21 @@ export const register = async (req: Request, res: Response) => {
         password: hashedPassword,
       })
       .returning();
+
+    //Generate a JWT token for the user
+    const token = generateToken(newUser[0].id);
+
     res.status(201).json({
       success: true,
       message: "User registered successfully!",
-      data:{
+      data: {
         user: {
-        id: newUser[0].id,
-        email,
-        name,
+          id: newUser[0].id,
+          email,
+          name,
+        },
+        token,
       },
-      }
     });
   } catch (error) {
     console.error("Error registering user:", error);
@@ -58,7 +64,7 @@ export const login = async (req: Request, res: Response) => {
       .from(usersTable)
       .where(eq(usersTable.email, email))
       .limit(1);
-      console.log("User found:", user);
+    console.log("User found:", user);
     if (user.length === 0) {
       return res.status(400).json({ message: "Invalid email or password" });
     }
@@ -67,14 +73,19 @@ export const login = async (req: Request, res: Response) => {
     if (!isPasswordValid) {
       return res.status(400).json({ message: "Invalid email or password" });
     }
+
+    //Generate a JWT token for the user
+    const token = generateToken(user[0].id);
+
     res.status(200).json({
       success: true,
       message: "User logged in successfully!",
       data: {
         user: {
-        id: user[0].id,
-        email,
-      },
+          id: user[0].id,
+          email,
+        },
+        token,
       },
     });
   } catch (error) {
@@ -82,4 +93,3 @@ export const login = async (req: Request, res: Response) => {
     res.status(500).json({ message: "Internal server error" });
   }
 };
-
