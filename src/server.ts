@@ -29,5 +29,7 @@ app.use("/api/users", userRoutes);
 
 
 app.listen(process.env.PORT, () => {
-  console.log(`Server running on port ${process.env.PORT}`);
+  //make the output a link to browser i.e http://localhost:3000
+
+  console.log(`Server running on this url: http://localhost:${process.env.PORT}`);
 });

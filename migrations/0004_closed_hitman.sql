@@ -1,0 +1,1 @@
+ALTER TABLE "posts_table" ALTER COLUMN "user_id" SET DATA TYPE uuid;
