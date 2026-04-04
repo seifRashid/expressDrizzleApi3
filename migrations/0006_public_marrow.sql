@@ -1,0 +1,2 @@
+ALTER TABLE "movies_table" ADD COLUMN "created_by" uuid NOT NULL;--> statement-breakpoint
+ALTER TABLE "movies_table" ADD CONSTRAINT "movies_table_created_by_users_table_id_fk" FOREIGN KEY ("created_by") REFERENCES "public"."users_table"("id") ON DELETE cascade ON UPDATE no action;

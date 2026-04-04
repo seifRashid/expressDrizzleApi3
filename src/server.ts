@@ -4,6 +4,7 @@ import cors from "cors";
 // import testRoutes from "./routes/test.routes.ts";
 import userRoutes from "./routes/user.routes.ts";
 import authRoutes from "./routes/auth.routes.ts";
+import watchlistRoutes from "./routes/watchlist.routes.ts";
 
 
 
@@ -25,8 +26,7 @@ app.use("/api/users", userRoutes);
 //   res.send("Hello, World!");
 // });
 
-// app.use("/test", testRoutes);
-
+app.use("/watchlist", watchlistRoutes);
 
 app.listen(process.env.PORT, () => {
   //make the output a link to browser i.e http://localhost:3000

@@ -34,7 +34,7 @@ export const register = async (req: Request, res: Response) => {
       .returning();
 
     //Generate a JWT token for the user
-    const token = generateToken(newUser[0].id);
+    const token = generateToken(newUser[0].id, res);
 
     res.status(201).json({
       success: true,
@@ -75,7 +75,7 @@ export const login = async (req: Request, res: Response) => {
     }
 
     //Generate a JWT token for the user
-    const token = generateToken(user[0].id);
+    const token = generateToken(user[0].id, res);
 
     res.status(200).json({
       success: true,
@@ -92,4 +92,10 @@ export const login = async (req: Request, res: Response) => {
     console.error("Error logging in user:", error);
     res.status(500).json({ message: "Internal server error" });
   }
+};
+
+//logout user controller function
+export const logout = (req: Request, res: Response) => {
+  res.clearCookie("token");
+  res.status(200).json({ message: "User logged out successfully!" });
 };

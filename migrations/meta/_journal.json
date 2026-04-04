@@ -36,6 +36,34 @@
       "when": 1774786225090,
       "tag": "0004_closed_hitman",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1774809319141,
+      "tag": "0005_common_hiroim",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1774809709186,
+      "tag": "0006_public_marrow",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1774899984876,
+      "tag": "0007_living_proudstar",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1774900785506,
+      "tag": "0008_lean_ultimatum",
+      "breakpoints": true
     }
   ]
 }
