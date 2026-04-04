@@ -3,26 +3,34 @@
 import type { Request, Response } from "express";
 import { db } from "../db.ts";
 import { moviesTable, watchlistTable } from "../schema.ts";
+import { and, eq } from "drizzle-orm";
 
 export const addToWatchlist = async (req: Request, res: Response) => {
   try {
     const { userId, movieId, status, rating } = req.body;
+    console.log(userId, movieId, status, rating);
     //check if movie exists in movie table
     const movieExists = await db
       .select()
-        .from(moviesTable)
-        .where(moviesTable.id === movieId);
+      .from(moviesTable)
+      .where(moviesTable.id === movieId);
     if (movieExists.length === 0) {
       return res.status(404).json({ error: "Movie not found" });
     }
 
-    //check if movie already in warchlist
+    console.log(userId, movieId, status, rating);
+
+    //check if movie already in watchlist
     const existingEntry = await db
       .select()
       .from(watchlistTable)
       .where(
-        watchlistTable.userId === userId && watchlistTable.movieId === movieId,
+        and(
+          eq(watchlistTable.userId, userId),
+          eq(watchlistTable.movieId, movieId),
+        ),
       );
+
     if (existingEntry.length > 0) {
       return res.status(400).json({ error: "Movie already in watchlist" });
     }
