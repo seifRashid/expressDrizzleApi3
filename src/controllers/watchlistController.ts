@@ -44,7 +44,14 @@ export const addToWatchlist = async (req: Request, res: Response) => {
         rating,
       })
       .returning();
-    res.status(201).json(newEntry);
+    // res.status(201).json(newEntry);
+    // return the movie details along with the watchlist entry and sucess message
+    res.status(201).json({
+      success: true,
+      message: "Movie added to watchlist successfully!",
+      data: newEntry,
+    });
+
   } catch (error) {
     res.status(500).json({ error: "Failed to add to watchlist" });
   }
