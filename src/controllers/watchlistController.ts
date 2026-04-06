@@ -56,3 +56,24 @@ export const addToWatchlist = async (req: Request, res: Response) => {
     res.status(500).json({ error: "Failed to add to watchlist" });
   }
 };
+
+//delete a movie from watchlist function
+export const deleteFromWatchlist = async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const deletedEntry = await db
+      .delete(watchlistTable)
+      .where(eq(watchlistTable.id, parseInt(id as string)))
+      .returning();
+    if (deletedEntry.length === 0) {
+      return res.status(404).json({ error: "Watchlist entry not found" });
+    }
+    res.status(200).json({
+      success: true,
+      message: "Movie removed from watchlist successfully!",
+      data: deletedEntry,
+    });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to remove from watchlist" });
+  }
+};
